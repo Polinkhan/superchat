@@ -20,7 +20,7 @@ function MsgBox() {
   return (
     <VStack
       bg={"white"}
-      h={"90vh"}
+      h={{ md: "90vh", base: "85vh" }}
       w={{ md: "100%", base: msgTab ? "100%" : "0%" }}
       borderRadius={"20"}
       style={{ transition: ".5s all" }}
@@ -31,7 +31,10 @@ function MsgBox() {
             <Tab key={key} className={"a" + key}></Tab>
           ))}
         </TabList>
-        <TabPanels h={"100%"} display={{ md: "flex", base: msgTab ? "flex" : "none" }}>
+        <TabPanels
+          h={"100%"}
+          display={{ md: "flex", base: msgTab ? "flex" : "none" }}
+        >
           {keys.map((key) => (
             <TabPanel key={key} h={"100%"} w={"100%"}>
               <ChatBox id={key} name={users[key]} />

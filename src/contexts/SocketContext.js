@@ -5,6 +5,7 @@ export const useSocketContext = () => useContext(SocketContext);
 
 function SocketContextProvoder(props) {
   const socket = io.connect("https://superchat-socket-server.herokuapp.com");
+  // const socket = io.connect("http://localhost:8000");
   const value = { socket };
 
   return (

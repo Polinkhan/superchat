@@ -7,16 +7,21 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useClientContext } from "../contexts/ClientContext";
 import { useSocketContext } from "../contexts/SocketContext";
 
 function Auth() {
   // console.log("Auth");
   const [userNameInput, setUserNameInput] = useState("Polin");
-  const { setRegister } = useClientContext();
+  const [hasData, setHasData] = useState(false);
+  const { users, setRegister } = useClientContext();
   const { socket } = useSocketContext();
   const toast = useToast();
+
+  useEffect(() => {
+    if (users) setHasData(true);
+  }, [users]);
 
   const makeToast = (title, descriptionn, status) => {
     toast({
@@ -91,6 +96,8 @@ function Auth() {
             Google
           </Button>
           <Button
+            isLoading={!hasData}
+            loadingText='Connecting'
             colorScheme={"purple"}
             variant={"outline"}
             onClick={handleClick}

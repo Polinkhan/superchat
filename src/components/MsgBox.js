@@ -23,7 +23,6 @@ function MsgBox() {
       h={{ md: "90vh", base: "85vh" }}
       w={{ md: "100%", base: msgTab ? "100%" : "0%" }}
       borderRadius={"20"}
-      style={{ transition: ".5s all" }}
     >
       <Tabs h={"100%"} w={"100%"}>
         <TabList display={"none"}>

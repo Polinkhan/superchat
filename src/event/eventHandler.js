@@ -70,7 +70,7 @@ function EventHandler() {
     socket.on("privateMsgRec", (name, id, msg) => {
       if (Object.keys(massages).length) {
         const allMsgs = { ...massages };
-        allMsgs[id].push({ name: name, msg: msg });
+        allMsgs[id].push({ name: name, id: id, msg: msg });
         setMassages(allMsgs);
       }
     });

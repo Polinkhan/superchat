@@ -73,7 +73,7 @@ function UserList() {
       w={{ md: "350px", base: userTab ? "100%" : "0%" }}
       fontSize={{ md: "md", base: userTab ? "sm" : "0%" }}
       borderRadius={"20"}
-      style={{ transition: ".5s all" }}
+      // style={{ transition: ".2s all" }}
     >
       {keys.map((value) => {
         const radio = getRadioProps({ value });

@@ -28,7 +28,7 @@ function Auth() {
       title: title,
       description: descriptionn,
       status: status,
-      duration: 4000,
+      duration: 2000,
       isClosable: true,
     });
   };

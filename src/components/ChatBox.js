@@ -1,6 +1,7 @@
 import { IconButton } from "@chakra-ui/button";
 import { Box, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
+import TextareaAutosize from "react-textarea-autosize";
 import React, { useState, useEffect, useRef } from "react";
 import {
   IoSendSharp,
@@ -42,21 +43,20 @@ function ChatBox({ id, name }) {
         w={"100%"}
         p={"2"}
         justifyContent={userId === myId ? "end" : "start"}
+        alignItems={"end"}
       >
         {/* User Logo */}
-        <VStack h={"100%"}>
-          <Box>
-            <IconButton
-              icon={<IoPersonCircleOutline />}
-              bg={"none"}
-              fontSize={"4xl"}
-            />
-          </Box>
+        <VStack display={user.name === "Me" ? "none" : "flex"}>
+          <IconButton
+            icon={<IoPersonCircleOutline />}
+            bg={"none"}
+            fontSize={"4xl"}
+          />
         </VStack>
 
         {/* User Name Msg SendTime */}
-        <VStack maxW={"80%"}>
-          <Box mb={"-2"} w={"100%"}>
+        <VStack maxW={"80%"} alignItems={"start"}>
+          <Box px={"2"} mb={"-2"} w={"100%"}>
             {user.name}
           </Box>
           <Box
@@ -66,8 +66,9 @@ function ChatBox({ id, name }) {
             borderTopRightRadius={"2xl"}
             borderBottomLeftRadius={"2xl"}
             borderBottomRightRadius={"md"}
-            bg={"purple.100"}
+            bg={user.name === "Me" ? "gray.200" : "purple.100"}
             wordBreak={"break-all"}
+            style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
           >
             {user.msg}
           </Box>
@@ -107,8 +108,12 @@ function ChatBox({ id, name }) {
       {/* MsgTypingArea Section */}
       <HStack height={"8%"} w={"100%"}>
         <Textarea
+          minH="unset"
+          focusBorderColor="none"
           resize={"none"}
           value={text}
+          maxRows={2}
+          as={TextareaAutosize}
           onChange={(e) => {
             setText(e.target.value);
           }}

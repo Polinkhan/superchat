@@ -33,7 +33,7 @@ function ChatBox({ id, name }) {
     useEffect(() => {
       setTimeout(() => {
         scrollToBottom();
-      }, 0);
+      }, 100);
     }, [massages]);
     return (
       <>

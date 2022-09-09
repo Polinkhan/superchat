@@ -20,7 +20,7 @@ function MsgBox() {
   return (
     <VStack
       bg={"white"}
-      h={{ md: "90vh", base: "85vh" }}
+      h={"90vh"}
       w={{ md: "100%", base: msgTab ? "100%" : "0%" }}
       borderRadius={"20"}
     >

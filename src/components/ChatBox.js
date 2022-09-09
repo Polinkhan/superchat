@@ -33,7 +33,7 @@ function ChatBox({ id, name }) {
     useEffect(() => {
       setTimeout(() => {
         scrollToBottom();
-      }, 0);
+      }, 50);
     }, [massages]);
     return (
       <>
@@ -48,7 +48,7 @@ function ChatBox({ id, name }) {
             {/* User Logo */}
             <VStack display={user.name === "Me" ? "none" : "flex"}>
               <Tooltip
-                label={"id : [ " + user.id+" ]"}
+                label={"id : [ " + user.id + " ]"}
                 placement="top"
                 aria-label="A tooltip"
                 hasArrow
@@ -167,6 +167,7 @@ function ChatBox({ id, name }) {
       <HStack
         onClick={handleBack}
         height={"7%"}
+        minH={"10"}
         w={"100%"}
         borderBottom={"1px solid #dddddd"}
         cursor={"pointer"}
@@ -183,7 +184,7 @@ function ChatBox({ id, name }) {
       </HStack>
 
       {/* MsgSeenArea Section */}
-      <VStack height={"80%"} w={"100%"} justifyContent={"end"}>
+      <VStack height={"85%"} w={"100%"} justifyContent={"end"}>
         <Box w={"100%"} overflowY={"scroll"} className={"msgBox"}>
           <Messages />
           <div ref={textEndRef} />
@@ -193,6 +194,7 @@ function ChatBox({ id, name }) {
       {/* MsgTypingArea Section */}
       <HStack
         height={{ md: "8%", base: "10%" }}
+        minH={"15"}
         justifyContent={"end"}
         w={"100%"}
       >

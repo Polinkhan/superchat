@@ -13,7 +13,7 @@ import { useSocketContext } from "../contexts/SocketContext";
 
 function Auth() {
   // console.log("Auth");
-  const [userNameInput, setUserNameInput] = useState("");
+  const [userNameInput, setUserNameInput] = useState("Polin");
   const [hasData, setHasData] = useState(false);
   const { users, setRegister } = useClientContext();
   const { socket } = useSocketContext();

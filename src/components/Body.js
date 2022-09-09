@@ -14,7 +14,7 @@ function Body() {
       overflow={"hidden"}
     >
       <Navbar />
-      <HStack>
+      <HStack zIndex={"1"}>
         <UserList />
         <MsgBox />
       </HStack>

@@ -69,7 +69,7 @@ function UserList() {
     <VStack
       py={"5"}
       bg={"white"}
-      h={{md:"90vh",base:"85vh"}}
+      h={"90vh"}
       w={{ md: "350px", base: userTab ? "100%" : "0%" }}
       fontSize={{ md: "md", base: userTab ? "sm" : "0%" }}
       borderRadius={"20"}

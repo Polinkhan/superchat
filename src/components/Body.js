@@ -14,10 +14,10 @@ function Body() {
       overflow={"hidden"}
     >
       <Navbar />
-      <HStack zIndex={"1"}>
+      <Box display={"flex"}>
         <UserList />
         <MsgBox />
-      </HStack>
+      </Box>
     </Box>
   );
 }

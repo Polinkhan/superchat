@@ -1,21 +1,28 @@
-import { IconButton } from "@chakra-ui/button";
-import { Box, HStack, Text, VStack, Tooltip } from "@chakra-ui/react";
-import { Textarea } from "@chakra-ui/textarea";
+import { nanoid } from "nanoid";
 import TextareaAutosize from "react-textarea-autosize";
 import React, { useState, useEffect, useRef } from "react";
+import { useSocketContext } from "../contexts/SocketContext";
+import { useClientContext } from "../contexts/ClientContext";
+import {
+  Box,
+  HStack,
+  Text,
+  VStack,
+  Tooltip,
+  Avatar,
+  AvatarBadge,
+  IconButton,
+  Textarea,
+} from "@chakra-ui/react";
 import {
   IoSend,
   IoChevronBack,
-  IoPersonCircle,
   IoEllipse,
   IoImageOutline,
   IoAttach,
   IoHappyOutline,
   IoAppsOutline,
 } from "react-icons/io5";
-import { useSocketContext } from "../contexts/SocketContext";
-import { nanoid } from "nanoid";
-import { useClientContext } from "../contexts/ClientContext";
 
 function ChatBox({ id, name }) {
   // console.log("c");
@@ -29,7 +36,8 @@ function ChatBox({ id, name }) {
   };
 
   function Messages() {
-    const { massages } = useClientContext();
+    const { users, massages } = useClientContext();
+    console.log();
     useEffect(() => {
       setTimeout(() => {
         scrollToBottom();
@@ -49,17 +57,15 @@ function ChatBox({ id, name }) {
             <VStack display={user.name === "Me" ? "none" : "flex"}>
               <Tooltip
                 label={"id : [ " + user.id + " ]"}
+                fontSize={"12"}
                 placement="top"
                 aria-label="A tooltip"
                 hasArrow
                 bg="purple.200"
               >
-                <IconButton
-                  icon={<IoPersonCircle />}
-                  bg={"none"}
-                  color={"purple.900"}
-                  fontSize={"4xl"}
-                />
+                <Avatar size={"sm"} cursor={"pointer"}>
+                  <AvatarBadge boxSize="1em" bg={users[user.id]?"green.500":"gray.300"} />
+                </Avatar>
               </Tooltip>
             </VStack>
 

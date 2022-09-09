@@ -5,9 +5,9 @@
 }
 
 .msgBox::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
 }
 .msgBox::-webkit-scrollbar-thumb {
-  background: rgb(180, 180, 180);
+  background: rgb(200, 200, 200);
   border-radius: 999px;
 }

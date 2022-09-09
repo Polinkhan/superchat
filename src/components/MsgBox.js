@@ -19,9 +19,11 @@ function MsgBox() {
 
   return (
     <VStack
+      mx={"1"}
       bg={"white"}
       h={"90vh"}
-      w={{ md: "100%", base: msgTab ? "100%" : "0%" }}
+      w={"100%"}
+      display={{ md: "flex", base: msgTab ? "flex" : "none" }}
       borderRadius={"20"}
     >
       <Tabs h={"100%"} w={"100%"}>
@@ -32,7 +34,6 @@ function MsgBox() {
         </TabList>
         <TabPanels
           h={"100%"}
-          display={{ md: "flex", base: msgTab ? "flex" : "none" }}
         >
           {keys.map((key) => (
             <TabPanel key={key} h={"100%"} w={"100%"}>

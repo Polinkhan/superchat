@@ -1,6 +1,16 @@
-import { Box, VStack, useRadio, useRadioGroup, Text } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  useRadio,
+  useRadioGroup,
+  Text,
+  Divider,
+  Avatar,
+  AvatarBadge,
+} from "@chakra-ui/react";
 import React from "react";
 import { useClientContext } from "../contexts/ClientContext";
+import { IoPersonCircle } from "react-icons/io5";
 
 function RadioCard(props) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -20,18 +30,17 @@ function RadioCard(props) {
       <Box
         {...checkbox}
         px={"4"}
+        mb={"2"}
+        mx={"2"}
         display="flex"
         alignItems={"center"}
         cursor="pointer"
-        h={"60px"}
-        borderLeftWidth={"3px"}
-        borderColor={"#f5f7fb"}
-        borderRadius={"3"}
-        boxShadow={"md"}
+        h={"50px"}
         bg={"#f5f7fb"}
+        borderRadius={"full"}
         _checked={{
           borderColor: "purple.500",
-          color: "purple",
+          color: "",
           fontWeight: "bold",
           bg: "purple.50",
         }}
@@ -40,8 +49,12 @@ function RadioCard(props) {
         }}
         onClick={handleClick}
       >
-        <Text>{props.children}</Text>
+        <Avatar size={"sm"}>
+          <AvatarBadge boxSize="1em" bg="green.500" />
+        </Avatar>
+        <Text pl={"2"}>{props.children}</Text>
       </Box>
+      <Divider />
     </Box>
   );
 }
@@ -67,11 +80,12 @@ function UserList() {
 
   return (
     <VStack
+      mx={"1"}
       py={"5"}
       bg={"white"}
       h={"90vh"}
-      w={{ md: "350px", base: userTab ? "100%" : "0%" }}
-      fontSize={{ md: "md", base: userTab ? "sm" : "0%" }}
+      w={{ md: "350px", base: "100%" }}
+      display={{ md: "flex", base: userTab ? "flex" : "none" }}
       borderRadius={"20"}
       // style={{ transition: ".2s all" }}
     >

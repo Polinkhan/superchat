@@ -100,13 +100,7 @@ function Navbar() {
 
   // console.log("Navbar");
   return (
-    <VStack
-      px={{ lg: "30", md: "10", base: "5" }}
-      position={{ md: "static", base: "fixed" }}
-      w={"100%"}
-      bottom={"0"}
-      zIndex={"0"}
-    >
+    <VStack px={{ lg: "30", md: "10", base: "5" }} w={"100%"}>
       <HStack h={"8vh"} minH={"12"} w={"100%"} justifyContent={"space-between"}>
         <Text w={"30%"}>SuperChat </Text>
         <HStack

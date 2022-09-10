@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import TextareaAutosize from "react-textarea-autosize";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSocketContext } from "../contexts/SocketContext";
 import { useClientContext } from "../contexts/ClientContext";
 import {
@@ -28,21 +28,20 @@ function ChatBox({ id, name }) {
   // console.log("c");
   const { myId, setUserTab, setMsgTab } = useClientContext();
   const { socket } = useSocketContext();
-  const textEndRef = useRef();
 
-  const scrollToBottom = () => {
-    textEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("Scroll");
-  };
+  function updateScroll() {
+    var element = document.getElementById("msg" + id);
+    element.scrollTop = element.scrollHeight;
+  }
 
   function Messages() {
     const { users, massages } = useClientContext();
-    console.log();
+
     useEffect(() => {
-      setTimeout(() => {
-        scrollToBottom();
-      }, 50);
+      // scrollToBottom();
+      updateScroll();
     }, [massages]);
+
     return (
       <>
         {massages[id].map((user) => (
@@ -54,7 +53,7 @@ function ChatBox({ id, name }) {
             alignItems={"end"}
           >
             {/* User Logo */}
-            <VStack display={user.name === "Me" ? "none" : "flex"}>
+            <VStack display={user.id === myId ? "none" : "flex"}>
               <Tooltip
                 label={"id : [ " + user.id + " ]"}
                 fontSize={"12"}
@@ -64,7 +63,10 @@ function ChatBox({ id, name }) {
                 bg="purple.200"
               >
                 <Avatar size={"sm"} cursor={"pointer"}>
-                  <AvatarBadge boxSize="1em" bg={users[user.id]?"green.500":"gray.300"} />
+                  <AvatarBadge
+                    boxSize="1em"
+                    bg={users[user.id] ? "green.500" : "gray.300"}
+                  />
                 </Avatar>
               </Tooltip>
             </VStack>
@@ -72,7 +74,7 @@ function ChatBox({ id, name }) {
             {/* User Name Msg SendTime */}
             <VStack maxW={"80%"} alignItems={"start"}>
               <Box px={"2"} mb={"-2"} w={"100%"}>
-                {user.name === "Me" ? "" : user.name}
+                {user.id === myId ? "" : user.name}
               </Box>
               <Box
                 px={"4"}
@@ -81,7 +83,7 @@ function ChatBox({ id, name }) {
                 borderTopRightRadius={"2xl"}
                 borderBottomLeftRadius={"2xl"}
                 borderBottomRightRadius={"md"}
-                bg={user.name === "Me" ? "gray.200" : "purple.100"}
+                bg={user.id === myId ? "gray.200" : "purple.100"}
                 wordBreak={"break-all"}
                 style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
               >
@@ -105,6 +107,7 @@ function ChatBox({ id, name }) {
         const newMassages = { ...massages };
         newMassages[id].push({ name: "Me", id: myId, msg: text });
         setMassages(newMassages);
+        setText("");
       }
     }
 
@@ -167,6 +170,9 @@ function ChatBox({ id, name }) {
     setMsgTab(false);
   }
 
+  const textBox = useMemo(() => <TextBox />, []);
+  const messages = useMemo(() => <Messages />, []);
+
   return (
     <VStack h={"100%"} w={"100%"}>
       {/* Header Section */}
@@ -191,20 +197,25 @@ function ChatBox({ id, name }) {
 
       {/* MsgSeenArea Section */}
       <VStack height={"85%"} w={"100%"} justifyContent={"end"}>
-        <Box w={"100%"} overflowY={"scroll"} className={"msgBox"}>
-          <Messages />
-          <div ref={textEndRef} />
+        <Box
+          id={"msg" + id}
+          w={"100%"}
+          overflowY={"scroll"}
+          className={"msgBox"}
+          scrollBehavior={"smooth"}
+        >
+          {messages}
         </Box>
       </VStack>
 
       {/* MsgTypingArea Section */}
       <HStack
         height={{ md: "8%", base: "10%" }}
-        minH={"15"}
+        minH={"20"}
         justifyContent={"end"}
         w={"100%"}
       >
-        <TextBox />
+        {textBox}
       </HStack>
     </VStack>
   );

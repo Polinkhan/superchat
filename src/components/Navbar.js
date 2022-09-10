@@ -101,7 +101,7 @@ function Navbar() {
   // console.log("Navbar");
   return (
     <VStack px={{ lg: "30", md: "10", base: "5" }} w={"100%"}>
-      <HStack h={"8vh"} minH={"12"} w={"100%"} justifyContent={"space-between"}>
+      <HStack h={"8vh"} minH={"16"} w={"100%"} justifyContent={"space-between"}>
         <Text w={"30%"}>SuperChat </Text>
         <HStack
           w={toggleSettings ? "250px" : "56px"}

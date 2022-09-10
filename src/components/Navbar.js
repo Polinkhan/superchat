@@ -16,6 +16,8 @@ import {
   useDisclosure,
   PinInput,
   PinInputField,
+  Avatar,
+  Img,
 } from "@chakra-ui/react";
 import {
   IoSettingsOutline,
@@ -50,6 +52,7 @@ function IconOpenModal({ btn }) {
         variant={"outline"}
         fontSize={"2xl"}
         bg={"White"}
+        size={"sm"}
         icon={btn}
         onClick={() => {
           onOpen();
@@ -101,11 +104,21 @@ function Navbar() {
   // console.log("Navbar");
   return (
     <VStack px={{ lg: "30", md: "10", base: "5" }} w={"100%"}>
-      <HStack h={"8vh"} minH={"16"} w={"100%"} justifyContent={"space-between"}>
-        <Text w={"30%"}>SuperChat </Text>
+      <HStack h={"10vh"} minH={"16"} w={"100%"} justifyContent={"space-between"}>
+        <HStack w={"40%"}>
+          <Img src="./chatLogo.webp" w={{ md: "20", base: "12" }} />
+          <Text
+            fontSize={{ md: "2xl", base: "md" }}
+            fontWeight={"bold"}
+            color={"blackAlpha.700"}
+          >
+            SuperChat{" "}
+          </Text>
+        </HStack>
+
         <HStack
-          w={toggleSettings ? "250px" : "56px"}
-          bg={"gray.200"}
+          w={toggleSettings ? "210px" : "48px"}
+          bg={"white"}
           justifyContent={"end"}
           transition={"0.5s"}
           p={"2"}
@@ -113,6 +126,7 @@ function Navbar() {
           overflow={"hidden"}
         >
           <IconButton
+            size={"sm"}
             borderRadius={"full"}
             colorScheme={"purple"}
             variant={"outline"}
@@ -121,6 +135,7 @@ function Navbar() {
             icon={<IoSunnyOutline />}
           />
           <IconButton
+            size={"sm"}
             borderRadius={"full"}
             colorScheme={"purple"}
             variant={"outline"}
@@ -130,6 +145,7 @@ function Navbar() {
           />
           <IconOpenModal btn={<IoTrashOutline />} />
           <IconButton
+            size={"sm"}
             borderRadius={"full"}
             colorScheme={"purple"}
             variant={"outline"}
@@ -141,6 +157,7 @@ function Navbar() {
             onClick={() => setSoundActive(!isSoundActive)}
           />
           <IconButton
+            size={"sm"}
             borderRadius={"full"}
             colorScheme={"purple"}
             variant={"outline"}

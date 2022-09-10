@@ -7,7 +7,7 @@ import UserList from "./UserList";
 function Body() {
   return (
     <Box
-      bg={"#f5f7fb"}
+      bg={"#f2efff"}
       h={"100vh"}
       w={"100vw"}
       px={{ md: "10", base: "0" }}

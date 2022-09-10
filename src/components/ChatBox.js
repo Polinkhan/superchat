@@ -196,7 +196,7 @@ function ChatBox({ id, name }) {
       </HStack>
 
       {/* MsgSeenArea Section */}
-      <VStack height={"85%"} w={"100%"} justifyContent={"end"}>
+      <VStack height={"80%"} w={"100%"} justifyContent={"end"}>
         <Box
           id={"msg" + id}
           w={"100%"}
@@ -210,8 +210,7 @@ function ChatBox({ id, name }) {
 
       {/* MsgTypingArea Section */}
       <HStack
-        height={{ md: "8%", base: "10%" }}
-        minH={"20"}
+        height={{ md: "13%", base: "10%" }}
         justifyContent={"end"}
         w={"100%"}
       >

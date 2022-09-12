@@ -11,7 +11,7 @@ function Body() {
       h={"100vh"}
       w={"100vw"}
       px={{ md: "10", base: "0" }}
-      overflow={"hidden"}
+      // overflow={"hidden"}
     >
       <Navbar />
       <Box display={"flex"}>

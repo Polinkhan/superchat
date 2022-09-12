@@ -103,8 +103,8 @@ function Navbar() {
 
   // console.log("Navbar");
   return (
-    <VStack px={{ lg: "30", md: "10", base: "5" }} w={"100%"}>
-      <HStack h={"10vh"} minH={"16"} w={"100%"} justifyContent={"space-between"}>
+    <VStack px={{ lg: "30", md: "10", base: "2" }} w={"100%"}>
+      <HStack h={"8vh"} w={"100%"} justifyContent={"space-between"}>
         <HStack w={"40%"}>
           <Img src="./chatLogo.webp" w={{ md: "20", base: "12" }} />
           <Text

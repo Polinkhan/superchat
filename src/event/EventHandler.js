@@ -4,80 +4,59 @@ import { useEffect } from "react";
 
 function EventHandler() {
   const { socket } = useSocketContext();
-  const { setUsers, myId, setMyId, massages, setMassages } = useClientContext();
+  const { users, setUsers, setMyId, massages, setMassages } =
+    useClientContext();
 
   //===initially request for all active users===//
   useEffect(() => {
-    socket.emit("requstUserData");
+    socket.emit("requstUsersData");
   }, []); //eslint-disable-line
 
   useEffect(() => {
     //===initially fetch all active user===//
-    socket.on("getUser", (userList, myId, msgs) => {
-      const ids = Object.keys(userList);
+    socket.on("getUsersData", (Users, myId, groupMsg) => {
       const allMsgs = {};
-      for (let i = 0; i < ids.length; i++) {
-        ids[i] === "group" ? (allMsgs[ids[i]] = msgs) : (allMsgs[ids[i]] = []);
-      }
+      const userList = Object.keys(Users);
+      userList.forEach((list) => {
+        list === "group" ? (allMsgs[list] = groupMsg) : (allMsgs[list] = []);
+      });
+
       setMassages(allMsgs);
-      setUsers(userList);
+      setUsers(Users);
       setMyId(myId);
     });
 
     //===adding newly joined users===//
-    socket.on("user-joined", (newUser, msgs, id) => {
-      if (myId) {
-        if (newUser[myId]) {
-          delete newUser[myId];
-          setUsers(newUser);
-          const allMsgs = massages;
-          allMsgs[id] = [];
-          setMassages(allMsgs);
-        } else {
-          setUsers(newUser);
-          const allMsgs = massages;
-          allMsgs[id] = [];
-          setMassages(allMsgs);
-        }
-      }
+    socket.on("user-joined", (newUser, userId) => {
+      setUsers({ ...users, ...newUser });
+      setMassages({ ...massages, [userId]: [] });
     });
 
     //===updating users after someone leave===//
-    socket.on("updateUser", (newUser, msgs) => {
-      if (myId) {
-        if (newUser[myId]) {
-          delete newUser[myId];
-          setUsers(newUser);
-          // setGrpMsg(msgs);
-        } else {
-          setUsers(newUser);
-          // setGrpMsg(msgs);
-        }
-      }
+    socket.on("updateUser", (userId) => {
+      const copyUsers = { ...users };
+      delete copyUsers[userId];
+      setUsers(copyUsers);
     });
 
     //===receive users message===//
     socket.on("receive", (msg) => {
-      if (Object.keys(massages).length) {
-        console.log("grp");
-        const allMsgs = { ...massages };
-        allMsgs.group = msg;
-        setMassages(allMsgs);
-      }
+      setMassages({ ...massages, group: msg });
     });
 
     //===receive users private message===//
-    socket.on("privateMsgRec", (name, id, msg) => {
-      if (Object.keys(massages).length) {
-        const allMsgs = { ...massages };
-        allMsgs[id].push({ name: name, id: id, msg: msg });
-        setMassages(allMsgs);
-      }
+    socket.on("privateMsgRec", (msg, userId) => {
+      console.log(msg);
+      setMassages({ ...massages, [userId]: [...massages[userId], msg] });
     });
     return () => {
-      socket.off();
+      socket.off("getUsersData");
+      socket.off("user-joined");
+      socket.off("updateUser");
+      socket.off("receive");
+      socket.off("privateMsgRec");
     };
-  }, [massages]); //eslint-disable-line
+  }, [users, massages]); //eslint-disable-line
 }
 
 export default EventHandler;

@@ -1,12 +1,26 @@
 import "./App.css";
 import Auth from "./components/Auth";
 import Body from "./components/Body";
-import { useClientContext } from "./contexts/ClientContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PreventRoute from "./components/Auth Route/PreventRoute";
+import PrivateRoute from "./components/Auth Route/PrivateRoute";
 
 function App() {
-  const { isRegister } = useClientContext();
-
-  return isRegister ? <Body /> : <Auth />;
+  // return isRegister ? <Body /> : <Auth />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PreventRoute />}>
+          <Route path="/login" element={<Auth />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Body />}>
+            <Route path=":id" element={<Body />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

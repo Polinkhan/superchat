@@ -1,10 +1,12 @@
 import { HStack, VStack, Center } from "@chakra-ui/layout";
 import React from "react";
+import { useParams } from "react-router-dom";
 import MsgBox from "./MsgBox";
 import Navbar from "./Navbar";
 import UserList from "./UserList";
 
 function Body() {
+  let params = useParams();
   return (
     <VStack
       h={"100vh"}

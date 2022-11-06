@@ -1,79 +1,21 @@
 import {
   Box,
   VStack,
-  useRadio,
-  useRadioGroup,
   Text,
   Divider,
   Avatar,
   AvatarBadge,
+  HStack,
+  Center,
 } from "@chakra-ui/react";
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { useClientContext } from "../contexts/ClientContext";
 
-function RadioCard(props) {
-  const { getInputProps, getCheckboxProps } = useRadio(props);
-  const { setUserTab, setMsgTab } = useClientContext();
-
-  const input = getInputProps();
-  const checkbox = getCheckboxProps();
-
-  function handleClick() {
-    setUserTab(false);
-    setMsgTab(true);
-  }
-
-  return (
-    <Box as="label" w={"100%"}>
-      <input {...input} />
-      <Box
-        {...checkbox}
-        px={"4"}
-        mb={"2"}
-        display="flex"
-        alignItems={"center"}
-        cursor="pointer"
-        h={"50px"}
-        bg={"#f0f2f5"}
-        borderRadius={10}
-        _checked={{
-          color: "",
-          fontWeight: "bold",
-          bg: "#e4e6eb",
-        }}
-        _focus={{
-          boxShadow: "",
-        }}
-        onClick={handleClick}
-      >
-        <Avatar size={"sm"}>
-          <AvatarBadge boxSize="1em" bg="green.500" />
-        </Avatar>
-        <Text pl={"2"}>{props.children}</Text>
-      </Box>
-      <Divider />
-    </Box>
-  );
-}
-
 function UserList() {
-  // console.log("UserList");
-  const { users, userTab } = useClientContext();
-  const keys = [];
-  Object.keys(users).forEach((key) => {
-    keys.push(key);
-  });
-
-  function handleChange(v) {
-    const btn = document.querySelector(".a" + v);
-    btn.click();
-  }
-
-  const { getRadioProps } = useRadioGroup({
-    name: "framework",
-    defaultValue: "group",
-    onChange: handleChange,
-  });
+  const { users, userTab, massages } = useClientContext();
+  const param = useParams();
+  const { id } = param;
 
   return (
     <VStack
@@ -85,14 +27,36 @@ function UserList() {
       borderRadius={10}
       boxShadow={"md"}
     >
-      {keys.map((value) => {
-        const radio = getRadioProps({ value });
-        return (
-          <RadioCard key={value} {...radio}>
-            {users[value]}
-          </RadioCard>
-        );
-      })}
+      {Object.keys(users).map((user, i) => (
+        <Box key={i} w={"100%"}>
+          <Link to={"/" + user}>
+            <HStack
+              px={"4"}
+              mb={"2"}
+              display="flex"
+              alignItems={"center"}
+              cursor="pointer"
+              h={"50px"}
+              bg={id === user ? "#e4e6eb" : "#f0f2f5"}
+              borderRadius={10}
+              // onClick={handleClick}
+            >
+              <Avatar size={"sm"}>
+                <AvatarBadge boxSize="1em" bg="green.500" />
+              </Avatar>
+              <Center pl={2} flexDirection={"column"} alignItems={"flex-start"}>
+                <Text>{users[user]}</Text>
+                <Text fontSize={"xs"}>
+                  {massages[user].length
+                    ? massages[user][massages[user].length - 1].msg
+                    : ""}
+                </Text>
+              </Center>
+            </HStack>
+          </Link>
+          <Divider />
+        </Box>
+      ))}
     </VStack>
   );
 }

@@ -26,10 +26,6 @@ import {
   IoAppsOutline,
 } from "react-icons/io5";
 import EmojiPicker from "emoji-picker-react";
-
-let pattern =
-  /(?:(?:https?|ftp):\/\/|\b(?:[a-z\d]+\.))(?:(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))?\))+(?:\((?:[^\s()<>]+|(?:\(?:[^\s()<>]+\)))?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))?/gi; //eslint-disable-line
-
 // var patern = new RegExp(regex);
 function ChatBox({ id, name }) {
   const { myId, setUserTab, setMsgTab } = useClientContext();
@@ -156,27 +152,16 @@ function Messages({ id, myId }) {
               borderTopRightRadius={"md"}
               borderBottomRightRadius={"2xl"}
               bg={"gray.200"}
-              _hover={
-                pattern.test(user.msg)
-                  ? {
-                      color: "blue",
-                      textDecoration: "underline",
-                    }
-                  : {
-                      bg: "gray.300",
-                    }
-              }
+              _hover={{
+                bg: "gray.300",
+              }}
               wordBreak={"break-all"}
               style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
               onClick={() => {
                 handleCopyMsg(user.msg);
               }}
             >
-              {pattern.test(user.msg) ? (
-                <Link href={user.msg}>user.msg</Link>
-              ) : (
-                user.msg
-              )}
+              {user.msg}
             </Box>
           </VStack>
         </HStack>
@@ -194,6 +179,13 @@ function TextBox({ id, myId }) {
   const [toggle, setToggle] = useState(false);
   const { massages, setMassages } = useClientContext();
   const { socket } = useSocketContext();
+
+  const icon_props = {
+    cursor: "pointer",
+    _hover: {
+      color: "gray.800",
+    },
+  };
 
   function handleSubmission() {
     if (text !== "") {
@@ -219,20 +211,21 @@ function TextBox({ id, myId }) {
   return (
     <>
       <HStack
-        fontSize={"lg"}
+        fontSize={"xl"}
         justifyContent={"space-around"}
         position={"relative"}
+        color={"gray.600"}
       >
-        <Text cursor={"pointer"}>
+        <Text {...icon_props}>
           <IoImageOutline />
         </Text>
-        <Text cursor={"pointer"}>
+        <Text {...icon_props}>
           <IoAttach />
         </Text>
-        <Text cursor={"pointer"} onClick={() => setToggle(!toggle)}>
+        <Text {...icon_props} onClick={() => setToggle(!toggle)}>
           <IoHappyOutline />
         </Text>
-        <Text cursor={"pointer"}>
+        <Text {...icon_props}>
           <IoAppsOutline />
         </Text>
       </HStack>
@@ -259,6 +252,7 @@ function TextBox({ id, myId }) {
         borderRadius={10}
         w={"90%"}
         autoFocus
+        onClick={() => setToggle(false)}
       />
       <IconButton
         size={"sm"}

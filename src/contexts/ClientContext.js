@@ -5,7 +5,7 @@ export const useClientContext = () => useContext(ClientContext);
 
 function ClientContextProvider(props) {
   // console.log("ClientContext");
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState(null);
   const [massages, setMassages] = useState({});
   const [isRegister, setRegister] = useState(false);
   const [myId, setMyId] = useState();

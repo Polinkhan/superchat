@@ -7,21 +7,15 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useClientContext } from "../contexts/ClientContext";
 import { useSocketContext } from "../contexts/SocketContext";
 
 function Auth() {
-  // console.log("Auth");
   const [userNameInput, setUserNameInput] = useState("");
-  const [hasData, setHasData] = useState(false);
   const { users, setRegister } = useClientContext();
   const { socket } = useSocketContext();
   const toast = useToast();
-
-  useEffect(() => {
-    if (users) setHasData(true);
-  }, [users]);
 
   const makeToast = (title, descriptionn, status) => {
     toast({
@@ -79,7 +73,7 @@ function Auth() {
         </HStack>
         <Button
           px={12}
-          isLoading={!hasData}
+          isLoading={users ? false : true}
           loadingText="Connecting"
           onClick={handleClick}
           borderRadius={10}

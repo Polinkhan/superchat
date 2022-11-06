@@ -15,6 +15,9 @@ import {
   useDisclosure,
   PinInput,
   PinInputField,
+  Center,
+  Box,
+  Link,
 } from "@chakra-ui/react";
 import {
   IoSettingsOutline,
@@ -113,63 +116,74 @@ function Navbar() {
         fontWeight={"bold"}
         color={"blackAlpha.700"}
       >
-        SuperChat
+        SuperChat 2.0
       </Text>
 
-      <HStack
-        w={toggleSettings ? "210px" : "48px"}
-        bg={"white"}
-        justifyContent={"end"}
-        transition={"0.5s"}
-        p={"2"}
-        borderRadius={"full"}
-        overflow={"hidden"}
-      >
-        <IconButton
-          size={"sm"}
-          borderRadius={"full"}
-          colorScheme={"purple"}
-          variant={"outline"}
-          fontSize={"2xl"}
-          bg={"White"}
-          icon={<IoSunnyOutline />}
-        />
-        <IconButton
-          size={"sm"}
-          borderRadius={"full"}
-          colorScheme={"purple"}
-          variant={"outline"}
-          fontSize={"2xl"}
-          bg={"White"}
-          icon={<IoPersonOutline />}
-        />
-        <IconOpenModal btn={<IoTrashOutline />} />
-        <IconButton
-          size={"sm"}
-          borderRadius={"full"}
-          colorScheme={"purple"}
-          variant={"outline"}
-          fontSize={"2xl"}
-          bg={"White"}
-          icon={
-            isSoundActive ? <IoVolumeHighOutline /> : <IoVolumeMuteOutline />
-          }
-          onClick={() => setSoundActive(!isSoundActive)}
-        />
-        <IconButton
-          size={"sm"}
-          borderRadius={"full"}
-          colorScheme={"purple"}
-          variant={"outline"}
-          fontSize={"2xl"}
-          bg={"White"}
-          icon={<IoSettingsOutline />}
-          transform={toggleSettings ? "" : "rotate(90deg)"}
+      <HStack>
+        <HStack
+          w={toggleSettings ? "210px" : "48px"}
+          bg={"white"}
+          justifyContent={"end"}
           transition={"0.5s"}
-          onClick={() => {
-            setToggleSettings(!toggleSettings);
-          }}
-        />
+          p={"2"}
+          borderRadius={"full"}
+          overflow={"hidden"}
+        >
+          <IconButton
+            size={"sm"}
+            borderRadius={"full"}
+            colorScheme={"purple"}
+            variant={"outline"}
+            fontSize={"2xl"}
+            bg={"White"}
+            icon={<IoSunnyOutline />}
+          />
+          <IconButton
+            size={"sm"}
+            borderRadius={"full"}
+            colorScheme={"purple"}
+            variant={"outline"}
+            fontSize={"2xl"}
+            bg={"White"}
+            icon={<IoPersonOutline />}
+          />
+          <IconOpenModal btn={<IoTrashOutline />} />
+          <IconButton
+            size={"sm"}
+            borderRadius={"full"}
+            colorScheme={"purple"}
+            variant={"outline"}
+            fontSize={"2xl"}
+            bg={"White"}
+            icon={
+              isSoundActive ? <IoVolumeHighOutline /> : <IoVolumeMuteOutline />
+            }
+            onClick={() => setSoundActive(!isSoundActive)}
+          />
+          <IconButton
+            size={"sm"}
+            borderRadius={"full"}
+            colorScheme={"purple"}
+            variant={"outline"}
+            fontSize={"2xl"}
+            bg={"White"}
+            icon={<IoSettingsOutline />}
+            transform={toggleSettings ? "" : "rotate(90deg)"}
+            transition={"0.5s"}
+            onClick={() => {
+              setToggleSettings(!toggleSettings);
+            }}
+          />
+        </HStack>
+        <Center alignItems={"self-start"} flexDirection={"column"}>
+          <Text>Version : 2.0.4</Text>
+          <Link
+            href="https://github.com/Polinkhan/superchat_client"
+            target={"_blank"}
+          >
+            Source Code
+          </Link>
+        </Center>
       </HStack>
     </HStack>
   );

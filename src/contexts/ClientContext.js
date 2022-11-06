@@ -10,7 +10,6 @@ function ClientContextProvider(props) {
   const [isRegister, setRegister] = useState(false);
   const [myId, setMyId] = useState();
   const [userTab, setUserTab] = useState(true);
-  const [msgTab, setMsgTab] = useState(false);
 
   // useEffect(() => {
   //   console.log(users);
@@ -27,8 +26,6 @@ function ClientContextProvider(props) {
     setMassages,
     userTab,
     setUserTab,
-    msgTab,
-    setMsgTab,
   };
 
   return (

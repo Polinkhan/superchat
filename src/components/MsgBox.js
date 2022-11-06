@@ -4,7 +4,7 @@ import { useClientContext } from "../contexts/ClientContext";
 import ChatBox from "./ChatBox";
 
 function MsgBox() {
-  const { users, msgTab } = useClientContext();
+  const { users, userTab } = useClientContext();
   const param = useParams();
   const { id } = param;
 
@@ -14,7 +14,7 @@ function MsgBox() {
       h={"100%"}
       w={"100%"}
       p={4}
-      display={{ md: "flex", base: msgTab ? "flex" : "none" }}
+      display={{ md: "flex", base: userTab ? "none" : "flex" }}
       borderRadius={10}
       boxShadow={"md"}
       position={"relative"}

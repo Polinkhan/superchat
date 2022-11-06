@@ -13,7 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import { useClientContext } from "../contexts/ClientContext";
 
 function UserList() {
-  const { users, userTab, massages } = useClientContext();
+  const { users, userTab, setUserTab, massages } = useClientContext();
   const param = useParams();
   const { id } = param;
 
@@ -39,14 +39,19 @@ function UserList() {
               h={"50px"}
               bg={id === user ? "#e4e6eb" : "#f0f2f5"}
               borderRadius={10}
-              // onClick={handleClick}
+              onClick={() => setUserTab(false)}
             >
               <Avatar size={"sm"}>
                 <AvatarBadge boxSize="1em" bg="green.500" />
               </Avatar>
-              <Center pl={2} flexDirection={"column"} alignItems={"flex-start"}>
+              <Center
+                pl={2}
+                flexDirection={"column"}
+                alignItems={"flex-start"}
+                overflow={"hidden"}
+              >
                 <Text>{users[user]}</Text>
-                <Text fontSize={"xs"}>
+                <Text fontSize={"xs"} whiteSpace={"nowrap"}>
                   {massages[user].length
                     ? massages[user][massages[user].length - 1].msg
                     : ""}

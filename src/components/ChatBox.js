@@ -14,7 +14,6 @@ import {
   IconButton,
   Textarea,
   useToast,
-  Link,
 } from "@chakra-ui/react";
 import {
   IoSend,
@@ -28,12 +27,7 @@ import {
 import EmojiPicker from "emoji-picker-react";
 // var patern = new RegExp(regex);
 function ChatBox({ id, name }) {
-  const { myId, setUserTab, setMsgTab } = useClientContext();
-
-  function handleBack() {
-    setUserTab(true);
-    setMsgTab(false);
-  }
+  const { myId, setUserTab } = useClientContext();
 
   // const textBox = useMemo(
   //   () => <TextBox id={id} myId={myId} toggle={toggle} setToggle={setToggle} />,
@@ -45,7 +39,7 @@ function ChatBox({ id, name }) {
     <VStack h={"100%"} w={"100%"} justifyContent={"space-between"}>
       {/* Header Section */}
       <HStack
-        onClick={handleBack}
+        onClick={() => setUserTab(true)}
         height={"8%"}
         w={"100%"}
         borderBottom={"1px solid #dddddd"}

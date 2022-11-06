@@ -5,7 +5,7 @@ import App from "./App";
 import ClientContextProvider from "./contexts/ClientContext";
 import { ChakraProvider } from "@chakra-ui/react";
 import SocketContextProvoder from "./contexts/SocketContext";
-import EventHandler from "./event/eventHandler";
+import EventHandler from "./event/EventHandler";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

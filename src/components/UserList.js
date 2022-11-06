@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useClientContext } from "../contexts/ClientContext";
-import { IoPersonCircle } from "react-icons/io5";
 
 function RadioCard(props) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -31,18 +30,16 @@ function RadioCard(props) {
         {...checkbox}
         px={"4"}
         mb={"2"}
-        mx={"2"}
         display="flex"
         alignItems={"center"}
         cursor="pointer"
         h={"50px"}
-        bg={"#f5f7fb"}
-        borderRadius={"full"}
+        bg={"#f0f2f5"}
+        borderRadius={10}
         _checked={{
-          borderColor: "purple.500",
           color: "",
           fontWeight: "bold",
-          bg: "purple.50",
+          bg: "#e4e6eb",
         }}
         _focus={{
           boxShadow: "",
@@ -80,14 +77,13 @@ function UserList() {
 
   return (
     <VStack
-      mx={"1"}
-      py={"5"}
-      bg={"white"}
-      h={"90vh"}
+      p={"3"}
+      bg={"#ffffff"}
+      h={"100%"}
       w={{ md: "350px", base: "100%" }}
       display={{ md: "flex", base: userTab ? "flex" : "none" }}
-      borderRadius={"20"}
-      // style={{ transition: ".2s all" }}
+      borderRadius={10}
+      boxShadow={"md"}
     >
       {keys.map((value) => {
         const radio = getRadioProps({ value });

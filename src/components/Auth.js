@@ -33,23 +33,19 @@ function Auth() {
     });
   };
 
-  async function handleClick() {
-    if (userNameInput.length > 3) {
-      await socket.emit("new-user-joined", userNameInput);
-      setRegister(true);
-      makeToast("Welcome", "Signed in as " + userNameInput, "success");
-    } else {
-      makeToast(
-        "Username too small",
-        "Please set your username of 4 character or more",
-        "error"
-      );
-    }
+  async function handleClick(e) {
+    e.preventDefault();
+    await socket.emit(
+      "new-user-joined",
+      userNameInput === "" ? "Annonymous" : userNameInput
+    );
+    setRegister(true);
+    makeToast("Welcome", "Signed in as " + userNameInput, "success");
   }
 
   return (
     <Stack
-      bg={"#9633ff"}
+      bg={"#f0f2f5"}
       height="100vh"
       w={"100vw"}
       justifyContent={"center"}
@@ -57,56 +53,42 @@ function Auth() {
     >
       <VStack
         bg={"#fff"}
-        w={{ xl: "35%", lg: "50%", md: "60%", base: "90%" }}
+        w={"100%"}
+        maxW={{ base: "400px", "2xl": "600px" }}
         h={"70%"}
         p={"8"}
-        borderRadius={"20"}
-        boxShadow="dark-lg"
+        borderRadius={10}
+        boxShadow="md"
+        as={"form"}
+        onSubmit={handleClick}
       >
         <HStack h={"20%"}>
           <Text fontSize={"4xl"} fontWeight={"bold"}>
             Sign In
           </Text>
         </HStack>
-        <HStack h={"40%"} w={{ sm: "50%", base: "80%" }}>
+        <HStack h={"40%"} w={"70%"} justifyContent={"space-around"}>
           <Input
+            autoFocus
             variant="flushed"
             value={userNameInput}
-            placeholder="Enter Username"
+            placeholder="Annonymous..."
             textAlign={"center"}
             onChange={(e) => setUserNameInput(e.target.value)}
           />
         </HStack>
-        <HStack
-          h={"20%"}
-          w={{ sm: "50%", base: "80%" }}
-          justifyContent={"space-around"}
+        <Button
+          px={12}
+          isLoading={!hasData}
+          loadingText="Connecting"
+          onClick={handleClick}
+          borderRadius={10}
+          type={"submit"}
+          colorScheme={"blue"}
+          rounded={"full"}
         >
-          <Button
-            colorScheme={"red"}
-            borderRadius={"full"}
-            onClick={() =>
-              makeToast(
-                "Under development!!",
-                "Google Sign in option is not available right now. please sign in as a guest",
-                "warning"
-              )
-            }
-          >
-            Google
-          </Button>
-          <Button
-            isLoading={!hasData}
-            loadingText='Connecting'
-            colorScheme={"purple"}
-            variant={"outline"}
-            onClick={handleClick}
-            borderRadius={"full"}
-            type={"submit"}
-          >
-            As Guest
-          </Button>
-        </HStack>
+          Login
+        </Button>
       </VStack>
     </Stack>
   );

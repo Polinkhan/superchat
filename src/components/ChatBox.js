@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import TextareaAutosize from "react-textarea-autosize";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useSocketContext } from "../contexts/SocketContext";
 import { useClientContext } from "../contexts/ClientContext";
 import {
@@ -13,6 +13,8 @@ import {
   AvatarBadge,
   IconButton,
   Textarea,
+  useToast,
+  Link,
 } from "@chakra-ui/react";
 import {
   IoSend,
@@ -23,163 +25,32 @@ import {
   IoHappyOutline,
   IoAppsOutline,
 } from "react-icons/io5";
+import EmojiPicker from "emoji-picker-react";
 
+let pattern =
+  /(?:(?:https?|ftp):\/\/|\b(?:[a-z\d]+\.))(?:(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))?\))+(?:\((?:[^\s()<>]+|(?:\(?:[^\s()<>]+\)))?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))?/gi; //eslint-disable-line
+
+// var patern = new RegExp(regex);
 function ChatBox({ id, name }) {
-  // console.log("c");
   const { myId, setUserTab, setMsgTab } = useClientContext();
-  const { socket } = useSocketContext();
-
-  function updateScroll() {
-    var element = document.getElementById("msg" + id);
-    element.scrollTop = element.scrollHeight;
-  }
-
-  function Messages() {
-    const { users, massages } = useClientContext();
-
-    useEffect(() => {
-      // scrollToBottom();
-      updateScroll();
-    }, [massages]);
-
-    return (
-      <>
-        {massages[id].map((user) => (
-          <HStack
-            key={nanoid()}
-            w={"100%"}
-            p={"2"}
-            justifyContent={user.id === myId ? "end" : "start"}
-            alignItems={"end"}
-          >
-            {/* User Logo */}
-            <VStack display={user.id === myId ? "none" : "flex"}>
-              <Tooltip
-                label={"id : [ " + user.id + " ]"}
-                fontSize={"12"}
-                placement="top"
-                aria-label="A tooltip"
-                hasArrow
-                bg="purple.200"
-              >
-                <Avatar size={"sm"} cursor={"pointer"}>
-                  <AvatarBadge
-                    boxSize="1em"
-                    bg={users[user.id] ? "green.500" : "gray.300"}
-                  />
-                </Avatar>
-              </Tooltip>
-            </VStack>
-
-            {/* User Name Msg SendTime */}
-            <VStack maxW={"80%"} alignItems={"start"}>
-              <Box px={"2"} mb={"-2"} w={"100%"}>
-                {user.id === myId ? "" : user.name}
-              </Box>
-              <Box
-                px={"4"}
-                py={"2"}
-                borderTopLeftRadius={"md"}
-                borderTopRightRadius={"2xl"}
-                borderBottomLeftRadius={"2xl"}
-                borderBottomRightRadius={"md"}
-                bg={user.id === myId ? "gray.200" : "purple.100"}
-                wordBreak={"break-all"}
-                style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
-              >
-                {user.msg}
-              </Box>
-            </VStack>
-          </HStack>
-        ))}
-      </>
-    );
-  }
-
-  function TextBox() {
-    const [text, setText] = useState("");
-    const { massages, setMassages } = useClientContext();
-
-    function handleSubmission(text) {
-      if (text !== "") {
-        if (id === "group") socket.emit("send", text);
-        else socket.emit("privateMsg", id, text);
-        const newMassages = { ...massages };
-        newMassages[id].push({ name: "Me", id: myId, msg: text });
-        setMassages(newMassages);
-        setText("");
-      }
-    }
-
-    function handleChange(e) {
-      const str = e.target.value;
-      // submit if Enter Press
-      if (str.charCodeAt(str.length - 1) !== 10) {
-        setText(e.target.value);
-      } else {
-        handleSubmission(text);
-      }
-    }
-    return (
-      <>
-        <HStack
-          fontSize={"xl"}
-          display={text === "" ? "flex" : "none"}
-          justifyContent={"space-around"}
-        >
-          <Text cursor={"pointer"}>
-            <IoImageOutline />
-          </Text>
-          <Text cursor={"pointer"}>
-            <IoAttach />
-          </Text>
-          <Text cursor={"pointer"}>
-            <IoHappyOutline />
-          </Text>
-          <Text cursor={"pointer"}>
-            <IoAppsOutline />
-          </Text>
-        </HStack>
-        <Textarea
-          minH="unset"
-          focusBorderColor="none"
-          resize={"none"}
-          value={text}
-          maxRows={2}
-          as={TextareaAutosize}
-          onChange={handleChange}
-          border={"none"}
-          bg={"#edf2f7"}
-          borderRadius={"full"}
-          w={text === "" ? "90%" : "100%"}
-          transition={"0.5s"}
-          autoFocus
-        />
-        <IconButton
-          w={"5%"}
-          onClick={() => handleSubmission(text)}
-          icon={<IoSend />}
-          borderRadius={"full"}
-        />
-      </>
-    );
-  }
 
   function handleBack() {
     setUserTab(true);
     setMsgTab(false);
   }
 
-  const textBox = useMemo(() => <TextBox />, []);
-  const messages = useMemo(() => <Messages />, []);
+  // const textBox = useMemo(
+  //   () => <TextBox id={id} myId={myId} toggle={toggle} setToggle={setToggle} />,
+  //   [id, myId, toggle, setToggle]
+  // );
+  // const messages = useMemo(() => <Messages id={id} myId={myId} />, [id, myId]);
 
   return (
-    <VStack h={"100%"} w={"100%"}>
+    <VStack h={"100%"} w={"100%"} justifyContent={"space-between"}>
       {/* Header Section */}
       <HStack
         onClick={handleBack}
-        height={"7%"}
-        minH={"10"}
+        height={"8%"}
         w={"100%"}
         borderBottom={"1px solid #dddddd"}
         cursor={"pointer"}
@@ -196,27 +67,222 @@ function ChatBox({ id, name }) {
       </HStack>
 
       {/* MsgSeenArea Section */}
-      <VStack height={"80%"} w={"100%"} justifyContent={"end"}>
-        <Box
-          id={"msg" + id}
-          w={"100%"}
-          overflowY={"scroll"}
-          className={"msgBox"}
-          scrollBehavior={"smooth"}
-        >
-          {messages}
+      <VStack h={"60vh"} w={"100%"} justifyContent={"end"}>
+        <Box p={4} w={"100%"} h={"100%"} boxShadow={"md"} borderRadius={10}>
+          <Box
+            id={"msg" + id}
+            w={"100%"}
+            h={"100%"}
+            maxH={"100%"}
+            overflowY={"scroll"}
+            className={"msgBox"}
+            scrollBehavior={"smooth"}
+          >
+            <Messages id={id} myId={myId} />
+          </Box>
         </Box>
       </VStack>
 
       {/* MsgTypingArea Section */}
-      <HStack
-        height={{ md: "13%", base: "10%" }}
-        justifyContent={"end"}
-        w={"100%"}
-      >
-        {textBox}
+      <HStack height={"10%"} justifyContent={"end"} w={"100%"}>
+        <TextBox id={id} myId={myId} />
       </HStack>
     </VStack>
+  );
+}
+
+function Messages({ id, myId }) {
+  const { users, massages } = useClientContext();
+  const toast = useToast();
+
+  function updateScroll() {
+    var element = document.getElementById("msg" + id);
+    element.scrollTop = element.scrollHeight;
+  }
+
+  function handleCopyMsg(msg) {
+    navigator.clipboard.writeText(msg);
+    toast({
+      title: "Copied to Clipboard.",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  }
+
+  useEffect(() => {
+    updateScroll();
+  }, [massages]); //eslint-disable-line
+
+  return (
+    <>
+      {massages[id].map((user) => (
+        <HStack
+          key={nanoid()}
+          w={"100%"}
+          justifyContent={user.id === myId ? "end" : "start"}
+          alignItems={"end"}
+          p={2}
+        >
+          {/* User Logo */}
+          <VStack display={user.id === myId ? "none" : "flex"}>
+            <Tooltip
+              label={"id : [ " + user.id + " ]"}
+              fontSize={"12"}
+              placement="top"
+              aria-label="A tooltip"
+              hasArrow
+              bg="purple.200"
+            >
+              <Avatar size={"sm"} cursor={"pointer"}>
+                <AvatarBadge
+                  boxSize="1em"
+                  bg={users[user.id] ? "green.500" : "gray.300"}
+                />
+              </Avatar>
+            </Tooltip>
+          </VStack>
+
+          {/* User Name Msg SendTime */}
+          <VStack maxW={"80%"} alignItems={"start"} cursor={"pointer"}>
+            <Box px={"2"} mb={"-2"} w={"100%"}>
+              {user.id === myId ? "" : user.name}
+            </Box>
+            <Box
+              px={"4"}
+              py={"2"}
+              borderBottomLeftRadius={"md"}
+              borderTopLeftRadius={"2xl"}
+              borderTopRightRadius={"md"}
+              borderBottomRightRadius={"2xl"}
+              bg={"gray.200"}
+              _hover={
+                pattern.test(user.msg)
+                  ? {
+                      color: "blue",
+                      textDecoration: "underline",
+                    }
+                  : {
+                      bg: "gray.300",
+                    }
+              }
+              wordBreak={"break-all"}
+              style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
+              onClick={() => {
+                handleCopyMsg(user.msg);
+              }}
+            >
+              {pattern.test(user.msg) ? (
+                <Link href={user.msg}>user.msg</Link>
+              ) : (
+                user.msg
+              )}
+            </Box>
+          </VStack>
+        </HStack>
+      ))}
+    </>
+  );
+}
+
+function TextBox({ id, myId }) {
+  const [text, setText] = useState("");
+  const [submitKey, setSubmitKey] = useState({
+    Enter: false,
+    Shift: false,
+  });
+  const [toggle, setToggle] = useState(false);
+  const { massages, setMassages } = useClientContext();
+  const { socket } = useSocketContext();
+
+  function handleSubmission() {
+    if (text !== "") {
+      if (id === "group") socket.emit("send", text);
+      else socket.emit("privateMsg", id, text);
+      const newMassages = { ...massages };
+      newMassages[id].push({ name: "Me", id: myId, msg: text });
+      setMassages(newMassages);
+      setToggle(false);
+      setText("");
+    }
+    setSubmitKey({
+      Enter: false,
+      Shift: false,
+    });
+  }
+
+  function handleChange(e) {
+    if (submitKey.Enter && !submitKey.Shift) {
+      handleSubmission();
+    } else setText(e.target.value);
+  }
+  return (
+    <>
+      <HStack
+        fontSize={"lg"}
+        justifyContent={"space-around"}
+        position={"relative"}
+      >
+        <Text cursor={"pointer"}>
+          <IoImageOutline />
+        </Text>
+        <Text cursor={"pointer"}>
+          <IoAttach />
+        </Text>
+        <Text cursor={"pointer"} onClick={() => setToggle(!toggle)}>
+          <IoHappyOutline />
+        </Text>
+        <Text cursor={"pointer"}>
+          <IoAppsOutline />
+        </Text>
+      </HStack>
+      <Textarea
+        // fontSize={"sm"}
+        size={"sm"}
+        minH="unset"
+        focusBorderColor="none"
+        resize={"none"}
+        value={text}
+        maxRows={2}
+        as={TextareaAutosize}
+        onChange={handleChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setSubmitKey({
+              Enter: true,
+              Shift: e.shiftKey,
+            });
+          }
+        }}
+        border={"none"}
+        bg={"#edf2f7"}
+        borderRadius={10}
+        w={"90%"}
+        autoFocus
+      />
+      <IconButton
+        size={"sm"}
+        w={"5%"}
+        onClick={() => handleSubmission(text)}
+        icon={<IoSend />}
+        borderRadius={10}
+      />
+      {toggle && (
+        <Box position={"absolute"} zIndex={999} bottom={20} left={5}>
+          <EmojiPicker
+            onEmojiClick={(e) => setText(text + e.emoji)}
+            lazyLoadEmojis
+            width={"300px"}
+            height={"300px"}
+            searchDisabled
+            suggestedEmojisMode={""}
+            previewConfig={{
+              showPreview: false,
+            }}
+          />
+        </Box>
+      )}
+    </>
   );
 }
 

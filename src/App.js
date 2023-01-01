@@ -14,9 +14,8 @@ function App() {
           <Route path="/login" element={<Auth />} />
         </Route>
         <Route element={<PrivateRoute />}>
-          <Route path="/" element={<Body />}>
-            <Route path=":id" element={<Body />} />
-          </Route>
+          <Route path="/" element={<></>} />
+          <Route path="/:id" element={<Body />} />
         </Route>
       </Routes>
     </BrowserRouter>

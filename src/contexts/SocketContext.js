@@ -5,7 +5,8 @@ export const useSocketContext = () => useContext(SocketContext);
 
 function SocketContextProvoder(props) {
   // const socket = io("http://localhost:8000");
-  const socket = io("https://superchat-server.netlify.app/");
+  // const socket = io("https://superchat-xrsc.onrender.com/");
+  const socket = io("polin.nippontechnology.com/");
   const value = { socket };
 
   return (

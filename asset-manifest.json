@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.f15fae3a.css",
-    "main.js": "/static/js/main.9eabec29.js",
-    "index.html": "/index.html"
+    "main.css": "/superchat/static/css/main.f15fae3a.css",
+    "main.js": "/superchat/static/js/main.9eabec29.js",
+    "index.html": "/superchat/index.html"
   },
   "entrypoints": [
     "static/css/main.f15fae3a.css",
